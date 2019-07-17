@@ -1,0 +1,44 @@
+<h2>Sales panel</h2>
+
+<div>
+    <div>
+        <label for="client">Client:</label>
+        <select style="width: 150px; height: 20px;" [(ngModel)]="sale.client">
+            <option *ngFor="let c of clients" [ngValue]="c">
+                {{c.name}}
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label for="product">Products:</label>
+        <select style="width: 150px; height: 100px;" [(ngModel)]="sale.products" multiple>
+            <option *ngFor="let f of products" [ngValue]="f">
+                {{f.name}}
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <button type="submit" style="width: 100px; height: 20px;" (click)="save()">Save</button>
+    </div>
+</div>
+
+<table class="table table-hover" style="width: 100%" border="1|0">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Products</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let sale of sales">
+            <td style="text-align:center">{{ sale.client.name }}</td>
+            <td style="text-align:center"> {{ sale.products[0].name }},...</td>
+            <td style="text-align:center"> <a href="javascript:void(0)" (click)="update(sale)">Update</a> </td>
+            <td style="text-align:center"> <a href="javascript:void(0)" (click)="delete(sale)">Delete</a> </td>
+        </tr>
+    </tbody>
+
+</table>
