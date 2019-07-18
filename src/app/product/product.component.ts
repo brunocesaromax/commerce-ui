@@ -10,6 +10,8 @@ export class ProductComponent implements OnInit {
 
   products: Array<any>;
   product = {};
+  msgError = null;
+  msgSuccess = null;
 
   constructor(private productService: ProductService) { }
 
@@ -26,20 +28,38 @@ export class ProductComponent implements OnInit {
       .subscribe(() => {
         this.product = {};
         this.list();
-        alert("Product created successfully.")
-      });
+        this.msgSuccess = 'Product created successfully.';
+      },
+        response => {
+          this.msgError = 'Name and price of product cannot be empty.';
+        }
+      );
+
+    this.msgError = null;
+    this.msgSuccess = null;
   }
 
   delete(product: any) {
     this.productService.delete(product)
       .subscribe(() => {
         this.list();
-        alert("Product deleted successfully.")
-      });
+        this.msgSuccess = 'Product deleted successfully.';
+      },
+        response => {
+          this.msgError = 'Could not delete product.';
+        }
+      );
+
+    this.msgError = null;
+    this.msgSuccess = null;
   }
 
   update(product: any) {
     this.product = product;
+  }
+
+  cancel() {
+    this.product = {};
   }
 
 }

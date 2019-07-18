@@ -14,6 +14,8 @@ export class SaleComponent implements OnInit {
   sale = {};
   clients: Array<any>;
   products: Array<any>;
+  msgError = null;
+  msgSuccess = null;
 
   constructor(private clientService: ClientsService, private productService: ProductService, private saleService: SaleService) { }
 
@@ -32,19 +34,38 @@ export class SaleComponent implements OnInit {
       .subscribe(() => {
         this.sale = {};
         this.list();
-      });
+        this.msgSuccess = 'Sale created successfully.';
+      },
+        response => {
+          this.msgError = 'Products must contain the customer and at least one product.';
+        }
+      );
+
+    this.msgError = null;
+    this.msgSuccess = null;
   }
 
   delete(sale: any) {
     this.saleService.delete(sale)
       .subscribe(() => {
         this.list();
-        alert("Sale deleted successfully.")
-      });
+        this.msgSuccess="Sale deleted successfully."
+      },
+        response => {
+          this.msgError = 'Could not delete sale.';
+        }
+      );
+
+    this.msgError = null;
+    this.msgSuccess = null;
   }
 
   update(sale: any) {
     this.sale = sale;
+  }
+
+  cancel() {
+    this.sale = {};
   }
 
 }

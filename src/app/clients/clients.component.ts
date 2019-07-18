@@ -11,6 +11,8 @@ export class ClientsComponent implements OnInit {
 
   clients: Array<any>;
   client = {};
+  msgError = null;
+  msgSuccess = null;
 
   constructor(private clientService: ClientsService, private datePipe: DatePipe) { }
 
@@ -19,11 +21,11 @@ export class ClientsComponent implements OnInit {
   }
 
   list() {
-    this.clientService.list().subscribe(dados => 
+    this.clientService.list().subscribe(dados =>
       dados.forEach(element => {
-        element.dateBirth= this.datePipe.transform(element.dateBirth, "yyyy-MM-dd");
+        element.dateBirth = this.datePipe.transform(element.dateBirth, "yyyy-MM-dd");
       },
-      this.clients = dados 
+        this.clients = dados
       ));
   }
 
@@ -32,21 +34,39 @@ export class ClientsComponent implements OnInit {
       .subscribe(() => {
         this.client = {};
         this.list();
-        alert("Client created successfully.")
-      });
+        this.msgSuccess = 'Client created successfully.';
+      },
+        response => {
+          this.msgError = 'Name and e-mail of client cannot be empty.';
+        }
+      );
+
+      this.msgError = null;
+      this.msgSuccess = null;
   }
 
   delete(client: any) {
     this.clientService.delete(client)
       .subscribe(() => {
         this.list();
-        alert("Client deleted successfully.")
-      });
+        this.msgSuccess = 'Client created successfully.';
+      },
+        response => {
+          this.msgError = 'Could not delete client.';
+        }
+      );
+
+      this.msgError = null;
+      this.msgSuccess = null;
   }
 
   update(client: any) {
     this.client = client;
     client.dateBirth = this.datePipe.transform(client.dateBirth, "yyyy-MM-dd");
+  }
+
+  cancel() {
+    this.client = {};
   }
 
 }

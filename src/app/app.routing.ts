@@ -1,9 +1,8 @@
-import { AppComponent } from './app.component';
-import { SaleComponent } from './sale/sale.component';
-import { ProductComponent } from './product/product.component';
-import { ClientsComponent } from './clients/clients.component';
-import {Routes, RouterModule} from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ClientsComponent } from './clients/clients.component';
+import { ProductComponent } from './product/product.component';
+import { SaleComponent } from './sale/sale.component';
 
 const APP_ROUTES: Routes = [
     {path: 'client', component: ClientsComponent},
